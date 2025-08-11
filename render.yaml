@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: mml-avatar-starterkit
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node web/server.js
+    autoDeploy: false
+    envVars:
+      - key: NODE_ENV
+        value: production
+
