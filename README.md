@@ -10,6 +10,7 @@ Quick small vibe-coded tool to help with large avatar drops, just make sure each
 - [MML Documentation](https://mml.io/docs)
 - [M-Character Reference](https://mml.io/docs/reference/elements/m-character)
 - [MML Editor](https://mmleditor.com/)
+- [Awesome MML (curated list)](https://github.com/DirectiveCreator/awesome-mml)
 - [Avatar Tools (open-source)](https://github.com/mml-io/avatar-tools)
 - [Avatar Tools (online tool)](https://directivecreator.com/avatar)
 - [Further MML avatar creation resources](https://directivecreator.com/mml/avatar-tutorial)
