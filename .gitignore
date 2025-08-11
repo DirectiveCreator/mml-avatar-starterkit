@@ -1,0 +1,6 @@
+node_modules/
+out/
+web/public/*.zip
+.DS_Store
+Thumbs.db
+Foxy_GLB_public_urls.txt

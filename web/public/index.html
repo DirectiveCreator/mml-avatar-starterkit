@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MML Batch Generator</title>
+  <style>
+    /* Dark mode inline styles */
+    :root {
+      --bg: #0b0f14;
+      --panel: #131a22;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #22d3ee;
+      --accent-700: #0891b2;
+      --border: #233044;
+      --code-bg: #0f172a;
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 2rem;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    h1 { margin: 0 0 0.5rem; font-weight: 700; letter-spacing: 0.2px; }
+    p { margin: 0 0 1rem; color: var(--muted); }
+    textarea {
+      width: 100%;
+      height: 220px;
+      background: var(--panel);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      line-height: 1.4;
+      resize: vertical;
+      outline: none;
+    }
+    textarea::placeholder { color: #60728a; }
+    .row { margin: 1rem 0; }
+    button {
+      padding: 0.7rem 1.1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      background: linear-gradient(180deg, var(--accent), var(--accent-700));
+      color: #001018;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(34, 211, 238, 0.15);
+    }
+    button:hover { filter: brightness(1.05); }
+    button:active { transform: translateY(1px); }
+    .hint { color: var(--muted); font-size: 0.9rem; margin-top: 0.4rem; }
+    .box { border: 1px solid var(--border); padding: 1rem; border-radius: 12px; background: rgba(19,26,34,0.7); }
+    .label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #cbd5e1; }
+    code { background: var(--code-bg); color: #d1d5db; padding: 2px 6px; border-radius: 6px; }
+    .footer { margin-top: 2rem; font-size: 0.95rem; color: var(--muted); }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>MML Batch Generator</h1>
+  <p>Paste your prepared GLB URLs (comma or newline separated).</p>
+  <p>Click Generate to download a batch zip of your MML files (1.mml, 2.mml).</p>
+
+  <div class="row box">
+    <label class="label" for="urls"><strong>GLB URLs</strong></label>
+    <textarea id="urls" placeholder="https://example.com/1.glb&#10;https://example.com/2.glb"></textarea>
+    <div class="hint">Input supports commas or new lines. Output files are numbered starting at 1.mml.</div>
+  </div>
+
+  <div class="row">
+    <button id="go">Generate .zip</button>
+  </div>
+
+  <div class="footer">
+    <div>Minimal output per file: <code>&lt;m-character src="..."&gt;&lt;/m-character&gt;</code></div>
+    <div>For more in depth conversion, setup, rigging, hosting and reference, check: <a href="https://github.com/DirectiveCreator/mml-avatar-starterkit" target="_blank" rel="noopener">github.com/DirectiveCreator/mml-avatar-starterkit</a></div>
+  </div>
+
+  <script>
+    document.getElementById('go').addEventListener('click', async () => {
+      const raw = document.getElementById('urls').value || '';
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ raw })
+      });
+      if (!res.ok) {
+        alert('Generation failed');
+        return;
+      }
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'mml-batch.zip';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
+

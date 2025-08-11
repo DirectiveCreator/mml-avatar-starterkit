@@ -1,0 +1,23 @@
+{
+  "name": "mml-avatar-starterkit",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Starter kit for preparing and batch-wrapping avatar GLBs into MML. Includes Node CLI and minimal web tool.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "bin": {
+    "mml-batch": "scripts/mml-batch.js"
+  },
+  "scripts": {
+    "start:web": "node web/server.js",
+    "cli": "node scripts/mml-batch.js --help"
+  },
+  "dependencies": {
+    "archiver": "^6.0.2",
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
+
